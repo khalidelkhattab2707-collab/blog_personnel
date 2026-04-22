@@ -90,7 +90,7 @@
             <a href="{{ route('articles.index') }}">📝 Articles</a>
 
             @auth
-                <a href="{{ route('dashboard') }}">⚙️ Dashboard</a>
+                <a href="{{ route('admin.dashboard') }}">⚙️ Dashboard</a>
                 <form action="{{ route('logout') }}" method="POST">
                     @csrf
                     <button type="submit">Déconnexion</button>
