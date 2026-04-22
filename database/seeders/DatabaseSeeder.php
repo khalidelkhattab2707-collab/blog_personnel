@@ -1,25 +1,54 @@
 <?php
-
 namespace Database\Seeders;
 
-use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\User;
+use App\Models\Category;
+use App\Models\Article;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
-    use WithoutModelEvents;
-
-    /**
-     * Seed the application's database.
-     */
     public function run(): void
     {
-        // User::factory(10)->create();
+        // 1. Créer les 4 catégories
+        $categories = ['PHP', 'Laravel', 'JavaScript', 'DevOps'];
+        foreach ($categories as $name) {
+            Category::create(['name' => $name]);
+        }
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+        // 2. Créer le blogueur
+        $user = User::create([
+            'name'     => 'Mon Blog',
+            'email'    => 'admin@blog.com',
+            'password' => Hash::make('password123'),
         ]);
+
+        // 3. Créer 6 articles (mix brouillons/publiés)
+        Article::create([
+            'title'       => 'Introduction à Laravel',
+            'content'     => 'Laravel est un framework PHP...',
+            'status'      => 'published',
+            'category_id' => 2,
+            'user_id'     => $user->id,
+        ]);
+
+        Article::create([
+            'title'       => 'Les bases de PHP',
+            'content'     => 'PHP est un langage serveur...',
+            'status'      => 'published',
+            'category_id' => 1,
+            'user_id'     => $user->id,
+        ]);
+
+        Article::create([
+            'title'       => 'Eloquent ORM expliqué',
+            'content'     => 'Eloquent permet de...',
+            'status'      => 'draft',
+            'category_id' => 2,
+            'user_id'     => $user->id,
+        ]);
+
+        // ... 3 autres articles
     }
 }
